@@ -14,28 +14,39 @@
         <q-btn stretch flat label="Home" to="/home" />
         <q-btn stretch flat label="MyPage" to="/mypage" />
         <q-separator class="q-my-md q-mr-md" vetical />
-        <q-btn unelevate rounded color="orange" label="로그인 / 회원가입" />
+        <q-btn
+          unelevate
+          rounded
+          color="orange"
+          label="로그인 / 회원가입"
+          @click="openAuthDialog"
+        />
       </q-toolbar>
     </q-header>
 
     <q-page-container :style="pageContainerStyles">
       <router-view />
     </q-page-container>
+    <!-- 회원가입 다이얼로그 -->
+    <AuthDialog v-model="authDialog" />
   </q-layout>
 </template>
 
 <script setup>
-import { computed } from 'vue';
-
+import { computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
+import AuthDialog from 'src/components/auth/AuthDialog.vue';
 
+// 컨테이너 크기 조정
 const route = useRoute();
 //console.dir(route);
 //debugger;
-
-//컨테이너 크기 조정
 const pageContainerStyles = computed(() => ({
   maxWidth: route.meta?.width || '1080px',
   margin: '0 auto',
 }));
+
+// 다이얼로그
+const authDialog = ref(true);
+const openAuthDialog = () => (authDialog.value = true);
 </script>
