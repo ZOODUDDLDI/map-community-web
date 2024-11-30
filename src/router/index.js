@@ -4,17 +4,8 @@ import {
   createMemoryHistory,
   createWebHistory,
   createWebHashHistory,
-} from 'vue-router/auto';
-// import routes from './routes'
-
-/*
- * If not building with SSR mode, you can
- * directly export the Router instantiation;
- *
- * The function below can be async too; either use
- * async/await or return a Promise which resolves
- * with the Router instance.
- */
+} from 'vue-router/auto'; // 자동 라우터 설정 : /auto 추가
+import { setupLayouts } from 'virtual:generated-layouts'; // 레이아웃 설정 추가
 
 export default route(function (/* { store, ssrContext } */) {
   const createHistory = process.env.SERVER
@@ -26,11 +17,25 @@ export default route(function (/* { store, ssrContext } */) {
   const Router = createRouter({
     scrollBehavior: () => ({ left: 0, top: 0 }),
     // routes,
-
-    // Leave this as is and make changes in quasar.conf.js instead!
-    // quasar.conf.js -> build -> vueRouterMode
-    // quasar.conf.js -> build -> publicPath
     history: createHistory(process.env.VUE_ROUTER_BASE),
+
+    //레이아웃 설정 추가
+    extendRoutes: routes => {
+      return setupLayouts(
+        routes.map(route => {
+          if (route.path.includes('admin')) {
+            route = {
+              ...route,
+              meta: {
+                ...route.meta,
+                layout: 'admin',
+              },
+            };
+          }
+          return route;
+        }),
+      );
+    },
   });
 
   return Router;
