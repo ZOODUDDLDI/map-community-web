@@ -47,6 +47,6 @@ const pageContainerStyles = computed(() => ({
 }));
 
 // 다이얼로그
-const authDialog = ref(true);
+const authDialog = ref(false);
 const openAuthDialog = () => (authDialog.value = true);
 </script>
