@@ -64,7 +64,21 @@ module.exports = configure(function (/* ctx */) {
       // viteVuePluginOptions: {},
 
       vitePlugins: [
-        ['unplugin-vue-router/vite', {}],
+        [
+          'unplugin-vue-router/vite',
+          {
+            routesFolder: [
+              {
+                src: 'src/pages',
+              },
+              {
+                src: 'src/admin',
+                path: 'admin/',
+              },
+            ],
+            exclude: ['**/components/**'],
+          },
+        ],
 
         [
           'vite-plugin-checker',
