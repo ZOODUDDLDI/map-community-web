@@ -1,1 +1,8 @@
 // app global css in SCSS form
+
+// 앵커태그 스타일
+a {
+  color: currentColor;
+  text-decoration: none;
+  cursor: pointer;
+}

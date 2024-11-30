@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="hHh lpR fFf">
+  <q-layout view="lHh Lpr lff" class="bg-grey-1">
     <q-header bordered class="bg-white text-grey-9">
       <q-toolbar>
         <q-btn flat dense to="/">
@@ -11,15 +11,31 @@
           </q-toolbar-title>
         </q-btn>
         <q-space />
-        <q-btn stretch flat label="Home" to="/" />
+        <q-btn stretch flat label="Home" to="/home" />
         <q-btn stretch flat label="MyPage" to="/mypage" />
         <q-separator class="q-my-md q-mr-md" vetical />
         <q-btn unelevate rounded color="orange" label="로그인 / 회원가입" />
       </q-toolbar>
     </q-header>
 
-    <q-page-container>
+    <q-page-container :style="pageContainerStyles">
       <router-view />
     </q-page-container>
   </q-layout>
 </template>
+
+<script setup>
+import { computed } from 'vue';
+
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
+//console.dir(route);
+//debugger;
+
+//컨테이너 크기 조정
+const pageContainerStyles = computed(() => ({
+  maxWidth: route.meta?.width || '1080px',
+  margin: '0 auto',
+}));
+</script>
