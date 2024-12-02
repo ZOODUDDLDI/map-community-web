@@ -21,6 +21,21 @@
           label="로그인 / 회원가입"
           @click="openAuthDialog"
         />
+        <q-btn round flat>
+          <q-avatar>
+            <img src="/juyeong.png" />
+          </q-avatar>
+          <q-menu>
+            <q-list>
+              <q-item clickable to="/mypage/profile">
+                <q-item-section>프로필</q-item-section>
+              </q-item>
+              <q-item>
+                <q-item-section>로그아웃</q-item-section>
+              </q-item>
+            </q-list>
+          </q-menu>
+        </q-btn>
       </q-toolbar>
     </q-header>
 
