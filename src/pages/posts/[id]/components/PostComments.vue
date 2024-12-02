@@ -10,48 +10,30 @@
       </div>
     </div>
 
-    <q-card v-if="!isActive" @click="toggleActive" class="cursor-pointer">
+    <BaseCard v-if="!isActive" @click="toggleActive" class="cursor-pointer">
       <q-card-section class="flex items-center">
         <q-avatar>
           <img src="/juyeong.png" alt="" />
         </q-avatar>
         <div class="text-grey-6 q-ml-md">댓글을 작성해보세요.</div>
       </q-card-section>
-    </q-card>
+    </BaseCard>
 
-    <q-list class="q-mt-lg bg-whithe" bordered separator>
-      <q-item>
-        <q-item-section side top>
-          <q-avatar size="md">
-            <img src="/juyeong.png" alt="" />
-          </q-avatar>
-        </q-item-section>
-        <q-item-section>
-          <div class="flex text-caption">
-            <span>쥉</span>
-            <span class="q-mx-xs">&middot;</span>
-            <span class="text-grey-6">1일전</span>
-          </div>
-          <div class="q-mt-sm">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorem
-            vero adipisci placeat suscipit quis voluptate! Totam alias neque
-            repellendus eligendi aperiam, provident quos necessitatibus quia
-            dolorum quisquam fugiat ea magnam.
-          </div>
-        </q-item-section>
-        <q-item-section side top>
-          <q-btn flat color="grey" icon="sym_o_delete" round dense></q-btn>
-        </q-item-section>
-      </q-item>
-    </q-list>
+    <CommentList :items="comments" />
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
+import CommentList from 'src/components/apps/comment/CommentList.vue';
+import BaseCard from 'src/components/base/BaseCard.vue';
 
+// 댓글 상태
 const isActive = ref(false);
 const toggleActive = () => (isActive.value = !isActive.value);
+
+// 임의의 데이터
+const comments = ref([{ id: 1 }, { id: 2 }, { id: 3 }]);
 </script>
 
 <style lang="scss" scoped></style>
