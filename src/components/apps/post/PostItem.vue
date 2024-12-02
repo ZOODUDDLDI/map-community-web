@@ -18,7 +18,7 @@
           <span v-for="tag in tags" :key="tag">#{{ tag }}&nbsp;&nbsp;</span>
         </div>
       </div>
-      <div class="text-grey-6 q-my-sm">{{ content }}</div>
+      <div class="text-grey-6 q-my-sm ellipsis-2-lines">{{ content }}</div>
       <div class="row items-center">
         <div class="col-3">
           <div class="flex flex-center">
