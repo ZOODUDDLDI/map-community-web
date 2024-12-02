@@ -23,7 +23,7 @@
       </div>
       <div class="flex items-center">
         <q-avatar>
-          <img src="https://cdn.quasar.dev/img/boy-avatar.png" alt="" />
+          <img src="/juyeong.png" alt="" />
         </q-avatar>
         <div class="q-ml-md">
           <div>쥉</div>

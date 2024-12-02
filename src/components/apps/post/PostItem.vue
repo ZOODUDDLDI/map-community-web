@@ -2,7 +2,7 @@
   <q-item class="bg-white q-pt-md" clickable :to="`posts/${id}`">
     <q-item-section avatar top>
       <q-avatar>
-        <img src="https://cdn.quasar.dev/img/boy-avatar.png" alt="" />
+        <img src="/juyeong.png" alt="" />
       </q-avatar>
     </q-item-section>
     <q-item-section>
