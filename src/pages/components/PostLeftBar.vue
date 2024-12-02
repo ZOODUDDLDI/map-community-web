@@ -15,11 +15,7 @@
 
 <script setup>
 import StickySideBar from 'src/components/StickySideBar.vue';
+import { getCategories } from 'src/services/category';
 
-// 임시 데이터
-const categories = [
-  { label: '커뮤니티', value: 'community' },
-  { label: '커뮤니티2', value: 'community2' },
-  { label: '커뮤니티3', value: 'community3' },
-];
+const categories = getCategories();
 </script>

@@ -6,6 +6,7 @@
       color="primary"
       text-color="white"
       class="full-width"
+      @click="$emit('openWriteDialog')"
     >
       <q-avatar class="q-mr-sm" color="white" text-color="primary" size="22px">
         <q-icon name="edit" size="14px" />
@@ -29,11 +30,11 @@
       </q-card-section>
 
       <!-- TODO: 지도 ! -->
-      <q-card-scrion class="q-pb-sm">
+      <q-card-section class="q-pb-sm">
         <q-card class="q-px-sm" bordered flat square>
           <q-item class="q-gutter-sm q-pb-sm" size="150px">map</q-item>
         </q-card>
-      </q-card-scrion>
+      </q-card-section>
 
       <q-card-section class="q-pb-sm">
         <q-card class="q-px-sm" bordered flat square>
@@ -51,7 +52,7 @@
               text-color="dark"
               unelevated
             >
-              칠암동
+              카페
               <q-icon name="clear" size="12px" color="grey" />
             </q-btn>
             <q-btn
@@ -61,7 +62,7 @@
               text-color="dark"
               unelevated
             >
-              주약동
+              식당
               <q-icon name="clear" size="12px" color="grey" />
             </q-btn>
             <q-btn
@@ -71,7 +72,7 @@
               text-color="dark"
               unelevated
             >
-              망경동
+              기타
               <q-icon name="clear" size="12px" color="grey" />
             </q-btn>
           </div>
@@ -92,7 +93,9 @@
 </template>
 
 <script setup>
-import StickySideBar from 'src/components/StickySideBar.vue';
+import StickySideBar from 'src/components/StickySideBar.vue'; //고정
+
+defineEmits(['openWriteDialog']);
 
 import { ref } from 'vue';
 //임시 데이터
