@@ -1,5 +1,5 @@
 <template>
-  <aside>
+  <StickySideBar>
     <q-btn
       padding="8px 12px 8px 8px"
       unelevated
@@ -88,10 +88,12 @@
         </q-item>
       </q-list>
     </q-card>
-  </aside>
+  </StickySideBar>
 </template>
 
 <script setup>
+import StickySideBar from 'src/components/StickySideBar.vue';
+
 import { ref } from 'vue';
 //임시 데이터
 const tags = ref([

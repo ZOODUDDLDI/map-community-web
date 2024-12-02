@@ -1,5 +1,5 @@
 <template>
-  <aside>
+  <StickySideBar>
     <q-card flat bordered>
       <q-list bordered separator>
         <q-item clickable v-ripple :active="true">
@@ -10,10 +10,12 @@
         </q-item>
       </q-list>
     </q-card>
-  </aside>
+  </StickySideBar>
 </template>
 
 <script setup>
+import StickySideBar from 'src/components/StickySideBar.vue';
+
 // 임시 데이터
 const categories = [
   { label: '커뮤니티', value: 'community' },
@@ -21,5 +23,3 @@ const categories = [
   { label: '커뮤니티3', value: 'community3' },
 ];
 </script>
-
-<style lang="scss" scoped></style>
