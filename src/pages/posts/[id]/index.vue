@@ -1,6 +1,7 @@
 <template>
   <q-page padding>
     <PostDetails />
+
     <q-separator class="q-my-xl" />
 
     <PostComments />
