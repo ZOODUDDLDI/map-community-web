@@ -15,22 +15,23 @@
         <q-btn stretch flat label="MyPage" to="/mypage" />
         <q-separator class="q-my-md q-mr-md" vetical />
         <q-btn
+          v-if="!authStore.isAuthenticated"
           unelevate
           rounded
           color="orange"
           label="로그인 / 회원가입"
           @click="openAuthDialog"
         />
-        <q-btn round flat>
+        <q-btn v-if="authStore.isAuthenticated" round flat>
           <q-avatar>
-            <img src="/juyeong.png" />
+            <img :src="authStore.user.photoURL" />
           </q-avatar>
           <q-menu>
             <q-list>
               <q-item clickable to="/mypage/profile">
                 <q-item-section>프로필</q-item-section>
               </q-item>
-              <q-item>
+              <q-item clickable v-close-popup @click="handleLogout">
                 <q-item-section>로그아웃</q-item-section>
               </q-item>
             </q-list>
@@ -51,6 +52,11 @@
 import { computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import AuthDialog from 'src/components/auth/AuthDialog.vue';
+import { useAuthStore } from 'src/stores/auth'; // 유저 상태
+import { logout } from 'src/services/auth'; // 로그아웃
+
+// 유저상태
+const authStore = useAuthStore();
 
 // 컨테이너 크기 조정
 const route = useRoute();
@@ -64,4 +70,9 @@ const pageContainerStyles = computed(() => ({
 // 다이얼로그
 const authDialog = ref(false);
 const openAuthDialog = () => (authDialog.value = true);
+
+// 로그아웃
+const handleLogout = async () => {
+  await logout();
+};
 </script>
