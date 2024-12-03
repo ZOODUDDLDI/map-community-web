@@ -10,6 +10,9 @@
 
 const { configure } = require('quasar/wrappers');
 
+const dotenv = require('dotenv');
+dotenv.config();
+
 module.exports = configure(function (/* ctx */) {
   return {
     // https://v2.quasar.dev/quasar-cli-vite/prefetch-feature
@@ -53,7 +56,12 @@ module.exports = configure(function (/* ctx */) {
 
       // publicPath: '/',
       // analyze: true,
-      // env: {},
+      env: {
+        VUE_API_KEY: process.env.VUE_API_KEY,
+        VUE_MESSAGING_SENDER_ID: process.env.VUE_MESSAGING_SENDER_ID,
+        VUE_APP_ID: process.env.VUE_APP_ID,
+        VUE_MEASUREMENT_ID: process.env.VUE_MEASUREMENT_ID,
+      },
       // rawDefine: {}
       // ignorePublicFolder: true,
       // minify: false,
