@@ -1,6 +1,7 @@
 import {
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
+  signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
   updateProfile,
@@ -10,8 +11,8 @@ import { auth } from 'src/boot/firebase';
 // 구글 로그인
 export async function signInWithGoogle() {
   const provider = new GoogleAuthProvider();
-  const result = await signInWithPopup(auth, provider); // ctrl+마우스오버 : 어떤값 리턴하는지 볼수 있음. promise 반환 : async, await
-  console.log('유저 : ', result.user);
+  const { user } = await signInWithPopup(auth, provider); // ctrl+마우스오버 : 어떤값 리턴하는지 볼수 있음. promise 반환 : async, await
+  return user;
 }
 
 // 구글 로그아웃
@@ -30,7 +31,13 @@ export async function signUpWithEamil({ email, password, nickname }) {
   });
   console.log('유저 : ', user);
 }
-
+// 디폴트 포토 URL
 export function generateDefaultPhotoURL(uid) {
   return `${DEFAULT_PHOTOURL}${uid}`;
+}
+
+// 이메일 로그인
+export async function signInWithEmail({ email, password }) {
+  const { user } = await signInWithEmailAndPassword(auth, email, password);
+  return user;
 }
