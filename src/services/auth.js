@@ -5,6 +5,7 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
+  updatePassword,
   updateProfile,
 } from 'firebase/auth';
 import { auth } from 'src/boot/firebase';
@@ -46,4 +47,9 @@ export async function signInWithEmail({ email, password }) {
 // 비밀번호 찾기
 export async function sendPasswordReset(email) {
   await sendPasswordResetEmail(auth, email);
+}
+
+// 비밀번호 변경하기
+export async function updateUserPassword(newPassword) {
+  await updatePassword(auth.currentUser, newPassword);
 }
