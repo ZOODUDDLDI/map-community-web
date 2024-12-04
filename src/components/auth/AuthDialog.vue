@@ -30,6 +30,7 @@
         <component
           :is="authViewComponents[viewMode]"
           @change-view="changeViewMode"
+          @close-dialog="closeDialog"
         />
       </q-card-section>
     </q-card>
@@ -46,7 +47,7 @@ defineProps({
   },
 });
 
-defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue']);
 
 // 로그인, 회원가입, 비밀번호찾기 상태
 const viewMode = ref('SignInForm');
@@ -58,6 +59,11 @@ const authViewComponents = {
   FindPasswordForm: defineAsyncComponent(() =>
     import('./FindPasswordForm.vue'),
   ),
+};
+
+// 다이얼로그창 닫기
+const closeDialog = () => {
+  emit('update:modelValue', false);
 };
 </script>
 

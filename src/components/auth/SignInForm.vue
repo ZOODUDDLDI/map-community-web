@@ -56,7 +56,7 @@
 <script setup>
 import { signInWithGoogle, signInWithEmail } from 'src/services';
 import { ref } from 'vue';
-defineEmits(['changeView']);
+const emit = defineEmits(['changeView', 'closeDialog']);
 
 // 이메일 로그인
 const form = ref({
@@ -65,12 +65,13 @@ const form = ref({
 });
 const handleSignInEmail = async () => {
   await signInWithEmail(form.value);
-  alert('로그인 !');
+  emit('closeDialog'); // 성공시 다이얼로그 닫기
 };
 
 // 구글로그인
 const handleSignInGoogle = async () => {
   await signInWithGoogle();
+  emit('closeDialog');
 };
 </script>
 

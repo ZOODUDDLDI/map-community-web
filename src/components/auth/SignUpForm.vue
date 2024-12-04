@@ -39,7 +39,7 @@
 import { ref } from 'vue';
 import { signUpWithEamil } from 'src/services';
 
-defineEmits(['changeView']);
+const emit = defineEmits(['changeView', 'closeDialog']);
 
 // 데이터
 const form = ref({
@@ -50,7 +50,7 @@ const form = ref({
 
 const handleSubmit = async () => {
   await signUpWithEamil(form.value);
-  alert('가입완료');
+  emit('closeDialog');
 };
 </script>
 
