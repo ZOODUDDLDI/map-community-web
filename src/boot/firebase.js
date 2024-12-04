@@ -1,14 +1,10 @@
 import { boot } from 'quasar/wrappers';
 
-// Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
 import { getAnalytics } from 'firebase/analytics';
-import { getAuth } from 'firebase/auth';
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { useAuthStore } from 'src/stores/auth';
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: process.env.VUE_API_KEY,
   authDomain: 'map-community-web.firebaseapp.com',
@@ -26,8 +22,12 @@ const auth = getAuth(app); // firebase : auth 추가
 
 export { auth }; // 외부 사용
 
-// "async" is optional;
-// more info on params: https://v2.quasar.dev/quasar-cli/boot-files
 export default boot(async (/* { app, router, ... } */) => {
-  // something to do
+  const authStore = useAuthStore();
+
+  // 파이어베이스 Auth 관찰자
+  onAuthStateChanged(auth, user => {
+    console.log('# 유저 : ', user);
+    authStore.setUser(user); // user상태에 저장
+  });
 });
