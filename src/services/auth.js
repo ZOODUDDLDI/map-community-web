@@ -1,6 +1,7 @@
 import {
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
+  sendEmailVerification,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
@@ -32,6 +33,7 @@ export async function signUpWithEamil({ email, password, nickname }) {
     photoURL: generateDefaultPhotoURL(user.uid),
   });
   console.log('유저 : ', user);
+  sendVerificationEmail();
 }
 // 디폴트 포토 URL
 export function generateDefaultPhotoURL(uid) {
@@ -42,6 +44,11 @@ export function generateDefaultPhotoURL(uid) {
 export async function signInWithEmail({ email, password }) {
   const { user } = await signInWithEmailAndPassword(auth, email, password);
   return user;
+}
+
+// 이메일 인증하기
+export async function sendVerificationEmail() {
+  await sendEmailVerification(auth.currentUser);
 }
 
 // 비밀번호 찾기

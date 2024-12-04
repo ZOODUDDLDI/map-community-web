@@ -7,7 +7,8 @@ export const useAuthStore = defineStore('auth', () => {
 
   const setUser = userData => {
     //파이어베이스로 유저 데이터를 받는다.
-    console.log('유저 데이터: ', userData);
+    // console.log('유저 데이터: ', userData);
+
     user.value = userData;
 
     // 만약 유저 데이터가 있다면
@@ -17,6 +18,8 @@ export const useAuthStore = defineStore('auth', () => {
         photoURL: userData.photoURL,
         displayName: userData.displayName,
         email: userData.email,
+        //이메일 인증
+        emailVerified: userData.emailVerified,
       };
     } else {
       //유저 데이타가 없다면,
