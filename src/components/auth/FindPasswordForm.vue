@@ -3,12 +3,18 @@
     <div class="text-h5 text-center text-weight-bold q-mb-xl">
       비밀번호 재설정
     </div>
-    <q-form class="q-gutter-y-md">
+    <q-form class="q-gutter-y-md" @submit.prevent="handleSubmit">
       <!-- 입력 -->
-      <q-input placeholder="가입한 이메일" outlined dense />
+      <q-input v-model="email" placeholder="가입한 이메일" outlined dense />
 
       <!-- 가입 -->
-      <q-btn label="확인" class="full-width" unelevated color="orange" />
+      <q-btn
+        type="submit"
+        label="비밀번호 재설정 하기"
+        class="full-width"
+        unelevated
+        color="orange"
+      />
 
       <q-separator />
       <!-- 로그인 -->
@@ -24,7 +30,21 @@
 </template>
 
 <script setup>
-defineEmits(['changeView']);
+import { ref } from 'vue';
+import { useQuasar } from 'quasar';
+import { sendPasswordReset } from 'src/services';
+
+const emit = defineEmits(['changeView', 'closeDialog']);
+
+const $q = useQuasar();
+
+const email = ref('');
+
+const handleSubmit = async () => {
+  await sendPasswordReset(email.value);
+  $q.notify('이메일로 비밀번호 재설정 링크를 보냈어요 ! ');
+  emit('closeDialog');
+};
 </script>
 
 <style lang="scss" scoped></style>

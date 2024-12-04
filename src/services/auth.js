@@ -1,6 +1,7 @@
 import {
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
@@ -40,4 +41,9 @@ export function generateDefaultPhotoURL(uid) {
 export async function signInWithEmail({ email, password }) {
   const { user } = await signInWithEmailAndPassword(auth, email, password);
   return user;
+}
+
+// 비밀번호 찾기
+export async function sendPasswordReset(email) {
+  await sendPasswordResetEmail(auth, email);
 }
