@@ -56,7 +56,11 @@
 <script setup>
 import { signInWithGoogle, signInWithEmail } from 'src/services';
 import { ref } from 'vue';
+import { useQuasar } from 'quasar';
+
 const emit = defineEmits(['changeView', 'closeDialog']);
+
+const $q = useQuasar();
 
 // 이메일 로그인
 const form = ref({
@@ -65,12 +69,14 @@ const form = ref({
 });
 const handleSignInEmail = async () => {
   await signInWithEmail(form.value);
+  $q.notify('환영합니다  ^_^');
   emit('closeDialog'); // 성공시 다이얼로그 닫기
 };
 
 // 구글로그인
 const handleSignInGoogle = async () => {
   await signInWithGoogle();
+  $q.notify('환영합니다  ^_^ ! !');
   emit('closeDialog');
 };
 </script>

@@ -37,9 +37,12 @@
 
 <script setup>
 import { ref } from 'vue';
+import { useQuasar } from 'quasar';
 import { signUpWithEamil } from 'src/services';
 
 const emit = defineEmits(['changeView', 'closeDialog']);
+
+const $q = useQuasar();
 
 // 데이터
 const form = ref({
@@ -50,6 +53,7 @@ const form = ref({
 
 const handleSubmit = async () => {
   await signUpWithEamil(form.value);
+  $q.notify('가입을 환영합니다 ^_^');
   emit('closeDialog');
 };
 </script>
