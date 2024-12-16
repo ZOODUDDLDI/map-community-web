@@ -1,8 +1,14 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
+import { useLocalStorage, StorageSerializers } from '@vueuse/core'; //VueUse 사용 !
 
 export const useAuthStore = defineStore('auth', () => {
-  const user = ref(null);
+  // const user = ref(null);
+
+  const user = useLocalStorage('auth/user', null, {
+    serializer: StorageSerializers.object,
+  }); // 1.키, 2.초기 값 3.옵션
+
   const isAuthenticated = computed(() => !!user.value); //로그인 상태
 
   const setUser = userData => {
