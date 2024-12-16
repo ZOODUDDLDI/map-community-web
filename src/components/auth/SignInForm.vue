@@ -18,6 +18,7 @@
         dense
         hide-bottom-space
       />
+      <DisplayError :code="error?.code" />
       <div>
         <!-- 로그인 -->
         <q-btn
@@ -26,6 +27,7 @@
           class="full-width"
           unelevated
           color="orange"
+          :loading="isLoading"
         />
         <!-- 부가서비스 -->
         <div class="flex justify-between">
@@ -64,11 +66,17 @@
 import { signInWithGoogle, signInWithEmail } from 'src/services';
 import { ref } from 'vue';
 import { useQuasar } from 'quasar';
-// import { validateRequired2, validateEmail } from 'src/utils/validate-rules';
+// import { validateRequired2, validateEmail } from 'src/utils/validate-rules'; //유효성체크
+import DisplayError from '../DisplayError.vue';
+import { getErrorMessage } from 'src/utils/firebase/error-message';
 
 const emit = defineEmits(['changeView', 'closeDialog']);
 
 const $q = useQuasar();
+
+// 에러 핸들링
+const isLoading = ref(false);
+const error = ref(null);
 
 // 이메일 로그인
 const form = ref({
@@ -76,9 +84,22 @@ const form = ref({
   password: '',
 });
 const handleSignInEmail = async () => {
-  await signInWithEmail(form.value);
-  $q.notify('환영합니다  ^_^');
-  emit('closeDialog'); // 성공시 다이얼로그 닫기
+  try {
+    isLoading.value = true;
+    await signInWithEmail(form.value);
+    $q.notify('환영합니다  ^_^');
+    emit('closeDialog'); // 성공시 다이얼로그 닫기
+  } catch (err) {
+    //에러
+    error.value = err;
+    console.log(err);
+    $q.notify({
+      type: 'negative',
+      message: getErrorMessage(err.code),
+    });
+  } finally {
+    isLoading.value = false;
+  }
 };
 
 // 구글로그인
