@@ -21,7 +21,7 @@ module.exports = configure(function (/* ctx */) {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli-vite/boot-files
-    boot: ['axios', 'firebase'], //TODO: 파이어 베이스 등록.
+    boot: ['axios', 'firebase', 'error-handler'], //TODO: 부트파일 등록.
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#css
     css: ['app.scss'],

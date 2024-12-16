@@ -83,6 +83,7 @@ const form = ref({
   email: '',
   password: '',
 });
+
 const handleSignInEmail = async () => {
   try {
     isLoading.value = true;
@@ -101,6 +102,13 @@ const handleSignInEmail = async () => {
     isLoading.value = false;
   }
 };
+
+// 에러 전역처리
+// const handleSignInEmail = async () => {
+//   await signInWithEmail(form.value);
+//   $q.notify('환영합니다  ^_^');
+//   emit('closeDialog'); // 성공시 다이얼로그 닫기
+// };
 
 // 구글로그인
 const handleSignInGoogle = async () => {
