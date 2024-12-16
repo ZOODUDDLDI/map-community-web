@@ -5,7 +5,14 @@
     </div>
     <q-form class="q-gutter-y-md" @submit.prevent="handleSubmit">
       <!-- 입력 -->
-      <q-input v-model="email" placeholder="가입한 이메일" outlined dense />
+      <q-input
+        v-model="email"
+        placeholder="가입한 이메일"
+        outlined
+        dense
+        hide-bottom-space
+        :rules="[validateEmail]"
+      />
 
       <!-- 가입 -->
       <q-btn
@@ -33,6 +40,7 @@
 import { ref } from 'vue';
 import { useQuasar } from 'quasar';
 import { sendPasswordReset } from 'src/services';
+import { validateEmail } from 'src/utils/validate-rules';
 
 const emit = defineEmits(['changeView', 'closeDialog']);
 

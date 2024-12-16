@@ -3,13 +3,20 @@
     <div class="text-h5 text-center text-weight-bold q-mb-xl">로그인</div>
     <q-form class="q-gutter-y-md" @submit.prevent="handleSignInEmail">
       <!-- 입력 -->
-      <q-input v-model="form.email" placeholder="이메일" outlined dense />
+      <q-input
+        v-model="form.email"
+        placeholder="이메일"
+        outlined
+        dense
+        hide-bottom-space
+      />
       <q-input
         v-model="form.password"
         type="password"
         placeholder="비밀번호"
         outlined
         dense
+        hide-bottom-space
       />
       <div>
         <!-- 로그인 -->
@@ -57,6 +64,7 @@
 import { signInWithGoogle, signInWithEmail } from 'src/services';
 import { ref } from 'vue';
 import { useQuasar } from 'quasar';
+// import { validateRequired2, validateEmail } from 'src/utils/validate-rules';
 
 const emit = defineEmits(['changeView', 'closeDialog']);
 
