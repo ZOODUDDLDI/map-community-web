@@ -9,12 +9,12 @@
 </template>
 
 <script setup>
+import { watch } from 'vue';
 import { useEditor, EditorContent } from '@tiptap/vue-3';
 import StarterKit from '@tiptap/starter-kit';
-import { watch } from 'vue';
 import Placeholder from '@tiptap/extension-placeholder'; // placeholder 설치
-
 import TiptapEditorMenu from './TiptapEditorMenu.vue';
+import Link from '@tiptap/extension-link';
 
 const props = defineProps({
   modelValue: {
@@ -32,6 +32,7 @@ const editor = useEditor({
     Placeholder.configure({
       placeholder: '마크다운을 이용해서 편리하게 글을 작성하시오.',
     }),
+    Link,
   ],
   onUpdate: () => {
     emit('update:modelValue', editor.value.getHTML());
