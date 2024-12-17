@@ -14,7 +14,7 @@
         </template>
       </q-select>
 
-      <TiptapEditor />
+      <TiptapEditor v-model="contentModel" />
 
       <q-input
         v-model="tagField"
