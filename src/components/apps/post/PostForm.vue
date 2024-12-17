@@ -1,13 +1,21 @@
 <template>
-  <q-form>
+  <q-form @submit.prevent="handleSubmit">
     <q-card-section class="q-gutter-y-sm">
-      <q-input v-model="titleModel" outlined placeholder="제목" />
+      <q-input
+        v-model="titleModel"
+        outlined
+        placeholder="제목"
+        hide-bottom-space
+        :rules="[validateRequired]"
+      />
       <q-select
         v-model="categoryModel"
         outlined
         :options="categories"
         emit-value
         map-options
+        hide-bottom-space
+        :rules="[validateRequired]"
       >
         <template v-if="!categoryModel" #selected>
           <span class="text-grey-7">카테고리를 선택하세요.</span>
@@ -32,7 +40,13 @@
     <q-card-actions align="right">
       <slot name="actions">
         <q-btn flat label="취소하기" v-close-popup />
-        <q-btn type="submit" flat label="저장하기" color="primary" />
+        <q-btn
+          type="submit"
+          flat
+          label="저장하기"
+          color="primary"
+          :loading="loading"
+        />
       </slot>
     </q-card-actions>
   </q-form>
@@ -40,10 +54,14 @@
 
 <script setup>
 import { computed, ref } from 'vue';
+import { useQuasar } from 'quasar';
 import { getCategories } from 'src/services/category';
+import { validateRequired } from 'src/utils/validate-rules';
 import TiptapEditor from 'src/components/tiptap/TiptapEditor.vue';
 // 셀렉트용 카테고리
 const categories = getCategories();
+
+const $q = useQuasar();
 
 const props = defineProps({
   title: {
@@ -59,6 +77,10 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
+  loading: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits([
@@ -66,6 +88,7 @@ const emit = defineEmits([
   'update:category',
   'update:content',
   'update:tags',
+  'submit', // 제출
 ]);
 
 const titleModel = computed({
@@ -87,6 +110,16 @@ const tagField = ref('');
 
 const removeTag = () => {
   console.log('removeTag');
+};
+
+const handleSubmit = () => {
+  // 컨턴츠 빈칸 확인
+  if (!contentModel.value) {
+    $q.notify('내용을 작성하세요.');
+    return;
+  }
+  // 유효하다면 이벤트 발생
+  emit('submit');
 };
 </script>
 

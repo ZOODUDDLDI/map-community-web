@@ -11,6 +11,9 @@ export const useAuthStore = defineStore('auth', () => {
 
   const isAuthenticated = computed(() => !!user.value); //로그인 상태
 
+  // uid
+  const uid = computed(() => user.value?.uid || null);
+
   const setUser = userData => {
     //파이어베이스로 유저 데이터를 받는다.
     // console.log('유저 데이터: ', userData);
@@ -34,6 +37,7 @@ export const useAuthStore = defineStore('auth', () => {
   };
   return {
     user,
+    uid,
     setUser,
     isAuthenticated,
   };
