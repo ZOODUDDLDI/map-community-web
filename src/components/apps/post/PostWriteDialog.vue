@@ -59,12 +59,11 @@ const { isLoading, execute } = useAsyncState(createPost, null, {
 });
 
 // 이벤트 받는
-const handleSubmit = () => {
+const handleSubmit = () =>
   execute(1000, {
     ...form.value,
     uid: authStore.uid,
   });
-};
 </script>
 
 <style lang="scss" scoped></style>
