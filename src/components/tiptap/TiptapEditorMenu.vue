@@ -124,6 +124,7 @@ const props = defineProps({
   },
 });
 
+// 링크
 const handleLinkMenu = () => {
   if (props.editor.isActive('link')) {
     props.editor.chain().focus().unsetLink().run();
@@ -153,6 +154,7 @@ const handleLinkMenu = () => {
     .run();
 };
 
+// 이미지
 const handleImageMenu = () => {
   const url = window.prompt('URL');
 

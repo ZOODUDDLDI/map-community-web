@@ -15,6 +15,7 @@ import StarterKit from '@tiptap/starter-kit';
 import Placeholder from '@tiptap/extension-placeholder'; // placeholder 설치
 import TiptapEditorMenu from './TiptapEditorMenu.vue';
 import Link from '@tiptap/extension-link';
+import Image from '@tiptap/extension-image';
 
 const props = defineProps({
   modelValue: {
@@ -33,6 +34,7 @@ const editor = useEditor({
       placeholder: '마크다운을 이용해서 편리하게 글을 작성하시오.',
     }),
     Link,
+    Image,
   ],
   onUpdate: () => {
     emit('update:modelValue', editor.value.getHTML());
