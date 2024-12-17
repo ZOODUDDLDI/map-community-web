@@ -34,10 +34,13 @@ const getInitialForm = () => ({
 
 <script setup>
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 import PostForm from './PostForm.vue';
 import { useAsyncState } from '@vueuse/core';
 import { createPost } from 'src/services';
 import { useAuthStore } from 'src/stores/auth';
+
+const router = useRouter();
 
 // 유저 상태
 const authStore = useAuthStore();
@@ -55,6 +58,7 @@ const { isLoading, execute } = useAsyncState(createPost, null, {
   throwError: true,
   onSuccess: postId => {
     console.log('포스트 아이디', postId);
+    router.push(`/posts/${postId}`); //상세 페이지로 이동
   },
 });
 
