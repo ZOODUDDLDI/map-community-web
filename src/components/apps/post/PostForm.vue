@@ -25,13 +25,20 @@
       <TiptapEditor v-model="contentModel" />
 
       <q-input
-        v-model="tagField"
         outlined
         placeholder="태그를 입력해주세요. (입력후, Enter)"
         prefix="#"
+        @keypress.enter.prevent="onRegistTag"
       />
-      <q-chip outline dense color="teal" removable @remove="removeTag"
-        >카페</q-chip
+      <q-chip
+        v-for="(tag, index) in tags"
+        :key="tag"
+        outline
+        dense
+        color="teal"
+        removable
+        @remove="removeTag(index)"
+        >{{ tag }}</q-chip
       >
     </q-card-section>
 
@@ -106,7 +113,20 @@ const contentModel = computed({
   set: val => emit('update:content', val),
 });
 
-const tagField = ref('');
+const onRegistTag = e => {
+  const tagValue = e.target.value.replace(/ /g, '');
+  if (!tagValue) {
+    return;
+  }
+  if (props.tags.length >= 5) {
+    $q.notify('태그는 5개 이상 등록할 수 없습니다.');
+    return;
+  }
+  if (props.tags.includes(tagValue) === false) {
+    emit('update:tags', [...props.tags, tagValue]);
+  }
+  e.target.value = ''; //빈값으로 초기화
+};
 
 const removeTag = () => {
   console.log('removeTag');
