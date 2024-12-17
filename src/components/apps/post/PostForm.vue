@@ -113,6 +113,7 @@ const contentModel = computed({
   set: val => emit('update:content', val),
 });
 
+// 태그 추가 기능
 const onRegistTag = e => {
   const tagValue = e.target.value.replace(/ /g, '');
   if (!tagValue) {
@@ -128,8 +129,11 @@ const onRegistTag = e => {
   e.target.value = ''; //빈값으로 초기화
 };
 
-const removeTag = () => {
-  console.log('removeTag');
+// 태그 삭제 기능
+const removeTag = index => {
+  const model = [...props.tags];
+  model.splice(index, 1);
+  emit('update:tags', model);
 };
 
 const handleSubmit = () => {
