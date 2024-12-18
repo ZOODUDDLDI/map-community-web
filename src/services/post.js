@@ -1,5 +1,11 @@
 import { db } from 'src/boot/firebase'; //firestore instance
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import {
+  addDoc,
+  collection,
+  doc,
+  serverTimestamp,
+  getDocs,
+} from 'firebase/firestore';
 
 export async function createPost(data) {
   // setDoc 같은경우
@@ -27,4 +33,24 @@ export async function createPost(data) {
     createAt: serverTimestamp(), //파이어베이스 제공
   });
   return docRef.id;
+}
+
+// 리스트 목록을 가져오는
+export async function getPosts(params) {
+  const querySnapshot = await getDocs(collection(db, 'posts'));
+  // const posts = []; // 배열 생성
+  // querySnapshot.forEach(docs => {
+  //   console.log(docs.id, ' => ', docs.data());
+  //   posts.push(docs.data()); // 하나씩 넣어주기
+  // });
+  const posts = querySnapshot.docs.map(docs => {
+    const data = docs.data();
+    return {
+      ...data,
+      id: docs.id,
+      createdAt: data.createAt?.toDate(),
+    };
+  });
+  console.log('글 목록 : ', posts);
+  return posts;
 }
