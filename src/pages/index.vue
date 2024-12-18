@@ -1,12 +1,13 @@
 <template>
   <q-page padding>
     <div class="row q-col-gutter-x-lg">
-      <PostLeftBar class="col-grow" />
+      <PostLeftBar class="col-grow" v-model:category="params.category" />
 
       <section class="col-7">
         <PostHeader />
         <PostList :items="posts" />
       </section>
+
       <PostRightBar class="col-3" @open-write-dialog="openWriteDialog" />
     </div>
     <PostWriteDialog v-model="postDialog" />
@@ -14,7 +15,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 
 import { getPosts } from 'src/services';
@@ -29,9 +30,22 @@ import PostWriteDialog from 'src/components/apps/post/PostWriteDialog.vue';
 const router = useRouter();
 // const goPostDetails = id => router.push(`/posts/{id}`);
 
-const { state: posts } = useAsyncState(getPosts, [], {
+const params = ref({
+  category: null,
+});
+
+const { state: posts, execute } = useAsyncState(getPosts, [], {
   throwError: true,
 });
+watch(
+  params,
+  () => {
+    execute(0, params.value);
+  },
+  {
+    deep: true,
+  },
+);
 
 const postDialog = ref(false);
 const openWriteDialog = () => {

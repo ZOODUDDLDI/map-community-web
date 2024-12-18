@@ -3,8 +3,11 @@ import {
   addDoc,
   collection,
   doc,
+  setDoc,
   serverTimestamp,
   getDocs,
+  query,
+  where,
 } from 'firebase/firestore';
 
 export async function createPost(data) {
@@ -37,12 +40,26 @@ export async function createPost(data) {
 
 // 리스트 목록을 가져오는
 export async function getPosts(params) {
-  const querySnapshot = await getDocs(collection(db, 'posts'));
-  // const posts = []; // 배열 생성
-  // querySnapshot.forEach(docs => {
-  //   console.log(docs.id, ' => ', docs.data());
-  //   posts.push(docs.data()); // 하나씩 넣어주기
+  console.log('### pasrams : ', params);
+  // 1. 컬렉션에 있는 모든 문서 조회
+  // const querySnapshot = await getDocs(collection(db, 'posts'));
+  // const posts = querySnapshot.docs.map(docs => {
+  //   const data = docs.data();
+  //   return {
+  //     ...data,
+  //     id: docs.id,
+  //     createdAt: data.createAt?.toDate(),
+  //   };
   // });
+  // console.log('글 목록 : ', posts);
+
+  // 1. 컬렉션에 있는 문서를 쿼리해서 조회
+  const conditions = []; // [where('category', '==', params?.category)]
+  if (params?.category) {
+    conditions.push(where('category', '==', params?.category));
+  }
+  const q = query(collection(db, 'posts'), ...conditions);
+  const querySnapshot = await getDocs(q);
   const posts = querySnapshot.docs.map(docs => {
     const data = docs.data();
     return {
@@ -51,6 +68,5 @@ export async function getPosts(params) {
       createdAt: data.createAt?.toDate(),
     };
   });
-  console.log('글 목록 : ', posts);
   return posts;
 }
