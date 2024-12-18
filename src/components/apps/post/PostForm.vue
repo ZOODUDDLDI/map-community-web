@@ -60,8 +60,9 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, toRef } from 'vue';
 import { useQuasar } from 'quasar';
+import { useTag } from 'src/composables/useTag';
 import { getCategories } from 'src/services/category';
 import { validateRequired } from 'src/utils/validate-rules';
 import TiptapEditor from 'src/components/tiptap/TiptapEditor.vue';
@@ -113,28 +114,11 @@ const contentModel = computed({
   set: val => emit('update:content', val),
 });
 
-// 태그 추가 기능
-const onRegistTag = e => {
-  const tagValue = e.target.value.replace(/ /g, '');
-  if (!tagValue) {
-    return;
-  }
-  if (props.tags.length >= 5) {
-    $q.notify('태그는 5개 이상 등록할 수 없습니다.');
-    return;
-  }
-  if (props.tags.includes(tagValue) === false) {
-    emit('update:tags', [...props.tags, tagValue]);
-  }
-  e.target.value = ''; //빈값으로 초기화
-};
-
-// 태그 삭제 기능
-const removeTag = index => {
-  const model = [...props.tags];
-  model.splice(index, 1);
-  emit('update:tags', model);
-};
+const { onRegistTag, removeTag } = useTag({
+  tags: toRef(props, 'tags'),
+  updateTags: tags => emit('update:tags', tags),
+  maxLengthMessage: '태그는 5개 이상 등록할 수 없습니다.',
+});
 
 const handleSubmit = () => {
   // 컨턴츠 빈칸 확인
