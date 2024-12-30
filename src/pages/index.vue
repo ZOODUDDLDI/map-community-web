@@ -4,7 +4,7 @@
       <PostLeftBar class="col-grow" v-model:category="params.category" />
 
       <section class="col-7">
-        <PostHeader />
+        <PostHeader v-model:sort="params.sort" />
         <PostList :items="posts" />
       </section>
 
@@ -34,10 +34,11 @@ import PostWriteDialog from 'src/components/apps/post/PostWriteDialog.vue';
 const router = useRouter();
 // const goPostDetails = id => router.push(`/posts/{id}`);
 
-// 목록 필터
+// 필터터
 const params = ref({
   category: null,
   tags: [],
+  sort: 'createAt',
 });
 
 const { state: posts, execute } = useAsyncState(getPosts, [], {

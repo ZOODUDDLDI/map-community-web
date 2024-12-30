@@ -8,6 +8,7 @@ import {
   getDocs,
   query,
   where,
+  orderBy,
 } from 'firebase/firestore';
 
 export async function createPost(data) {
@@ -48,7 +49,7 @@ export async function getPosts(params) {
   //   return {
   //     ...data,
   //     id: docs.id,
-  //     createdAt: data.createAt?.toDate(),
+  //     createAt: data.createAt?.toDate(),
   //   };
   // });
   // console.log('글 목록 : ', posts);
@@ -59,8 +60,13 @@ export async function getPosts(params) {
     conditions.push(where('category', '==', params?.category));
   }
 
-  if (params?.tags && params?.tags.length > 0){
-    conditions.push(where('tags', 'array-contains-any', params?.tags))
+  // 태그
+  if (params?.tags && params?.tags.length > 0) {
+    conditions.push(where('tags', 'array-contains-any', params?.tags));
+  }
+
+  if (params?.sort) {
+    conditions.push(orderBy(params.sort, 'desc'));
   }
 
   const q = query(collection(db, 'posts'), ...conditions);
@@ -70,7 +76,7 @@ export async function getPosts(params) {
     return {
       ...data,
       id: docs.id,
-      createdAt: data.createAt?.toDate(),
+      createAt: data.createAt?.toDate(),
     };
   });
   return posts;

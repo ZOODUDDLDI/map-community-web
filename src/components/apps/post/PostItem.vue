@@ -9,7 +9,7 @@
       <div class="flex items-center">
         <span
           >닉네임 &middot;
-          {{ date.formatDate(createdAt, 'YY/MM/DD HH:mm:ss') }}</span
+          {{ date.formatDate(createAt, 'YY/MM/DD HH:mm:ss') }}</span
         >
         <q-chip class="q-ml-sm" dense color="primary" text-color="white">
           {{ category }}
@@ -93,7 +93,7 @@ defineProps({
   category: {
     type: String,
   },
-  createdAt: {
+  createAt: {
     type: Date,
   },
   tags: {
