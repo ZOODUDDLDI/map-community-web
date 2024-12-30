@@ -30,6 +30,7 @@ import PostWriteDialog from 'src/components/apps/post/PostWriteDialog.vue';
 const router = useRouter();
 // const goPostDetails = id => router.push(`/posts/{id}`);
 
+// 목록 필터
 const params = ref({
   category: null,
 });
@@ -37,6 +38,7 @@ const params = ref({
 const { state: posts, execute } = useAsyncState(getPosts, [], {
   throwError: true,
 });
+// 파라미터가 변경될때마다 바꾸기 (필터)
 watch(
   params,
   () => {

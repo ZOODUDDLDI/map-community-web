@@ -2,8 +2,11 @@ export const useTag = options => {
   const { tags, updateTags, maxLengthMessage } = options || {};
 
   // 태그 추가 기능
-  const onRegistTag = e => {
-    const tagValue = e.target.value.replace(/ /g, '');
+  const addTag = newTag => {
+    const isEventHandler = typeof newTag != 'string';
+    const tagValue = isEventHandler
+      ? newTag.target.value.replace(/ /g, '')
+      : newTag.replace(/ /g, '');
     if (!tagValue) {
       return;
     }
@@ -15,7 +18,9 @@ export const useTag = options => {
       // emit('update:tags', [...props.tags, tagValue]);
       updateTags([...tags.value, tagValue]);
     }
-    e.target.value = ''; //빈값으로 초기화
+    if (isEventHandler) {
+      newTag.target.value = ''; //빈값으로 초기화
+    }
   };
   // 태그 삭제 기능
   const removeTag = index => {
@@ -25,7 +30,7 @@ export const useTag = options => {
     updateTags(model);
   };
   return {
-    onRegistTag,
+    addTag,
     removeTag,
   };
 };

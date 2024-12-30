@@ -28,7 +28,7 @@
         outlined
         placeholder="태그를 입력해주세요. (입력후, Enter)"
         prefix="#"
-        @keypress.enter.prevent="onRegistTag"
+        @keypress.enter.prevent="addTag"
       />
       <q-chip
         v-for="(tag, index) in tags"
@@ -38,8 +38,8 @@
         color="teal"
         removable
         @remove="removeTag(index)"
-        >{{ tag }}</q-chip
-      >
+        >{{ tag }}
+      </q-chip>
     </q-card-section>
 
     <q-separator />
@@ -62,9 +62,9 @@
 <script setup>
 import { computed, ref, toRef } from 'vue';
 import { useQuasar } from 'quasar';
-import { useTag } from 'src/composables/useTag';
+import { useTag } from 'src/composables/useTag'; // 컴포저블 함수
 import { getCategories } from 'src/services/category';
-import { validateRequired } from 'src/utils/validate-rules';
+import { validateRequired } from 'src/utils/validate-rules'; // 유효성 확인
 import TiptapEditor from 'src/components/tiptap/TiptapEditor.vue';
 // 셀렉트용 카테고리
 const categories = getCategories();
@@ -86,6 +86,7 @@ const props = defineProps({
     default: () => [],
   },
   loading: {
+    // 로딩 상태
     type: Boolean,
     default: false,
   },
@@ -114,7 +115,7 @@ const contentModel = computed({
   set: val => emit('update:content', val),
 });
 
-const { onRegistTag, removeTag } = useTag({
+const { addTag, removeTag } = useTag({
   tags: toRef(props, 'tags'),
   updateTags: tags => emit('update:tags', tags),
   maxLengthMessage: '태그는 5개 이상 등록할 수 없습니다.',

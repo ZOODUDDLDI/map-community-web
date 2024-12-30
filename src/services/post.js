@@ -38,9 +38,9 @@ export async function createPost(data) {
   return docRef.id;
 }
 
-// 리스트 목록을 가져오는
+// 리스트 목록을 가져오기
 export async function getPosts(params) {
-  console.log('### pasrams : ', params);
+  console.log('### pasrams : ', params); // 필터
   // 1. 컬렉션에 있는 모든 문서 조회
   // const querySnapshot = await getDocs(collection(db, 'posts'));
   // const posts = querySnapshot.docs.map(docs => {

@@ -1,7 +1,6 @@
 <template>
   <StickySideBar>
     <q-card flat bordered>
-      {{ category }}
       <q-list bordered separator>
         <q-item
           clickable
@@ -39,6 +38,7 @@ defineProps({
 
 const emit = defineEmits(['update:category']);
 
+// 카테고리 필터
 const changeCategory = value => {
   emit('update:category', value);
 };

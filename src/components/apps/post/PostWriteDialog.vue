@@ -67,7 +67,7 @@ const { isLoading, execute } = useAsyncState(createPost, null, {
 const handleSubmit = () =>
   execute(1000, {
     ...form.value,
-    uid: authStore.uid,
+    uid: authStore.uid, // 유저 아이디
   });
 </script>
 
