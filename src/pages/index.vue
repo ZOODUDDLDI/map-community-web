@@ -8,7 +8,11 @@
         <PostList :items="posts" />
       </section>
 
-      <PostRightBar class="col-3" @open-write-dialog="openWriteDialog" />
+      <PostRightBar
+        class="col-3"
+        v-model:tags="params.tags"
+        @open-write-dialog="openWriteDialog"
+      />
     </div>
     <PostWriteDialog v-model="postDialog" />
   </q-page>
@@ -33,6 +37,7 @@ const router = useRouter();
 // 목록 필터
 const params = ref({
   category: null,
+  tags: [],
 });
 
 const { state: posts, execute } = useAsyncState(getPosts, [], {

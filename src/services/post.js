@@ -58,6 +58,11 @@ export async function getPosts(params) {
   if (params?.category) {
     conditions.push(where('category', '==', params?.category));
   }
+
+  if (params?.tags && params?.tags.length > 0){
+    conditions.push(where('tags', 'array-contains-any', params?.tags))
+  }
+
   const q = query(collection(db, 'posts'), ...conditions);
   const querySnapshot = await getDocs(q);
   const posts = querySnapshot.docs.map(docs => {
