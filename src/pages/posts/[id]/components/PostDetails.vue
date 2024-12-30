@@ -44,6 +44,10 @@
     </div>
 
     <div class="q-mt-md text-5 text-weight-bold">{{ post.title }}</div>
+    <div>
+      <span v-for="tag in post.tags" :key="tag"># {{ tag }} &nbsp;</span>
+      {{ post.category }}
+    </div>
 
     <div class="row items-center q-gutter-x-md q-mt-md justify-end">
       <PostIcon name="sym_o_visibility" :label="post.readCount" />
@@ -55,7 +59,8 @@
       <PostIcon name="sym_o_bookmark" :label="post.bookmarkCount" />
     </div>
     <q-separator class="q-my-lg" />
-    <div v-html="post.content"></div>
+
+    <TiptapViewer v-if="post.content" :content="post.content" />
   </BaseCard>
 </template>
 
@@ -66,6 +71,7 @@ import { useAsyncState } from '@vueuse/core';
 import { getPost } from 'src/services';
 import PostIcon from 'src/components/apps/post/PostIcon.vue';
 import BaseCard from 'src/components/base/BaseCard.vue';
+import TiptapViewer from 'src/components/tiptap/TiptapViewer.vue';
 
 const route = useRoute();
 
