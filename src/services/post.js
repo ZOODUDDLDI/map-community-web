@@ -9,6 +9,7 @@ import {
   query,
   where,
   orderBy,
+  getDoc,
 } from 'firebase/firestore';
 
 export async function createPost(data) {
@@ -80,4 +81,19 @@ export async function getPosts(params) {
     };
   });
   return posts;
+}
+
+// 상세페이지 데이터 불러오기
+export async function getPost(id) {
+  const docSnap = await getDoc(doc(db, 'posts', id));
+
+  if (!docSnap.exists()) {
+    throw new Error('No such document!');
+  }
+  const data = docSnap.data();
+
+  return {
+    ...data,
+    createAt: data.createAt.toDate(),
+  };
 }

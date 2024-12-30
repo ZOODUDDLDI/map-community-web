@@ -8,6 +8,7 @@
         dense
         color="grey"
         size="16px"
+        @click="$router.back()"
       />
       <q-space />
       <q-btn icon="sym_o_favorite" flat round dense color="red" size="16px" />
@@ -19,7 +20,9 @@
       </q-avatar>
       <div class="q-ml-md">
         <div>쥉</div>
-        <div class="text-grey-6">1일전</div>
+        <div class="text-grey-6">
+          {{ date.formatDate(post.createAt, 'YYYY.MM.DD HH:mm:ss') }}
+        </div>
       </div>
       <q-space />
       <q-btn icon="more_horiz" round flat>
@@ -40,39 +43,36 @@
       </q-btn>
     </div>
 
-    <div class="q-mt-md text-5 text-weight-bold">제목입니다</div>
+    <div class="q-mt-md text-5 text-weight-bold">{{ post.title }}</div>
 
     <div class="row items-center q-gutter-x-md q-mt-md justify-end">
-      <PostIcon name="sym_o_visibility" :label="1" tooltip="조회수" />
+      <PostIcon name="sym_o_visibility" :label="post.readCount" />
 
-      <PostIcon name="sym_o_sms" :label="2" tooltip="댓글수" />
+      <PostIcon name="sym_o_sms" :label="post.commentCount" />
 
-      <PostIcon name="sym_o_favorite" :label="3" tooltip="좋아요" />
+      <PostIcon name="sym_o_favorite" :label="post.likeCount" />
 
-      <PostIcon name="sym_o_bookmark" :label="4" tooltip="북마크" />
+      <PostIcon name="sym_o_bookmark" :label="post.bookmarkCount" />
     </div>
     <q-separator class="q-my-lg" />
-    <div>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet magnam
-      cumque velit minus ad voluptas accusamus reprehenderit numquam error vero
-      id omnis, voluptatibus ratione dolorem cum ipsum eius repudiandae
-      accusantium! <br />
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet magnam
-      cumque velit minus ad voluptas accusamus reprehenderit numquam error vero
-      id omnis, voluptatibus ratione dolorem cum ipsum eius repudiandae
-      accusantium! <br />
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet magnam
-      cumque velit minus ad voluptas accusamus reprehenderit numquam error vero
-      id omnis, voluptatibus ratione dolorem cum ipsum eius repudiandae
-      accusantium!
-    </div>
+    <div v-html="post.content"></div>
   </BaseCard>
 </template>
 
 <script setup>
-import { route } from 'quasar/wrappers';
+import { date } from 'quasar';
+import { useRoute } from 'vue-router';
+import { useAsyncState } from '@vueuse/core';
+import { getPost } from 'src/services';
 import PostIcon from 'src/components/apps/post/PostIcon.vue';
 import BaseCard from 'src/components/base/BaseCard.vue';
+
+const route = useRoute();
+
+const { state: post, error } = useAsyncState(
+  () => getPost(route.params.id),
+  {},
+);
 </script>
 
 <style lang="scss" scoped></style>
