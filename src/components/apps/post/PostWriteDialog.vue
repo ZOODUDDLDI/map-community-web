@@ -41,6 +41,8 @@ import { useAsyncState } from '@vueuse/core';
 import { createPost } from 'src/services';
 import { useAuthStore } from 'src/stores/auth';
 
+const emit = defineEmits(['complete']);
+
 const router = useRouter();
 
 // 유저 상태
@@ -59,7 +61,8 @@ const { isLoading, execute } = useAsyncState(createPost, null, {
   throwError: true,
   onSuccess: postId => {
     console.log('포스트 아이디', postId);
-    router.push(`/posts/${postId}`); //상세 페이지로 이동
+    // router.push(`/posts/${postId}`); //상세 페이지로 이동
+    emit('complete');
   },
 });
 

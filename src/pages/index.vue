@@ -14,7 +14,10 @@
         @open-write-dialog="openWriteDialog"
       />
     </div>
-    <PostWriteDialog v-model="postDialog" />
+    <PostWriteDialog
+      v-model="postDialog"
+      @complete="completeRegistrationPost"
+    />
   </q-page>
 </template>
 
@@ -42,22 +45,24 @@ const params = ref({
 });
 
 const { state: posts, execute } = useAsyncState(getPosts, [], {
+  immediate: false,
   throwError: true,
 });
 // 파라미터가 변경될때마다 바꾸기 (필터)
-watch(
-  params,
-  () => {
-    execute(0, params.value);
-  },
-  {
-    deep: true,
-  },
-);
+watch(params, () => execute(0, params.value), {
+  deep: true,
+  immediate: true,
+});
 
 const postDialog = ref(false);
 const openWriteDialog = () => {
   postDialog.value = true;
+};
+
+// 글쓰기 완료 후
+const completeRegistrationPost = () => {
+  postDialog.value = false;
+  execute(0, params.value);
 };
 </script>
 
