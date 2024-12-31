@@ -10,6 +10,7 @@ import {
   where,
   orderBy,
   getDoc,
+  updateDoc,
 } from 'firebase/firestore';
 
 export async function createPost(data) {
@@ -96,4 +97,12 @@ export async function getPost(id) {
     ...data,
     createAt: data.createAt.toDate(),
   };
+}
+
+// 게시물 수정
+export async function updatePost(id, data) {
+  await updateDoc(doc(db, 'posts', id), {
+    ...data,
+    updatedAt: serverTimestamp(),
+  });
 }
