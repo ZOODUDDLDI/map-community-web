@@ -10,6 +10,7 @@ export const useAuthStore = defineStore('auth', () => {
   }); // 1.키, 2.초기 값 3.옵션
 
   const isAuthenticated = computed(() => !!user.value); //로그인 상태
+  console.log('로그인 상태 : ', isAuthenticated);
 
   // uid
   const uid = computed(() => user.value?.uid || null);
