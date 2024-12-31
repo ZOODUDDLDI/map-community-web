@@ -5,7 +5,14 @@
 
       <section class="col-7">
         <PostHeader v-model:sort="params.sort" />
-        <PostList :items="posts" />
+        <PostList :items="items" />
+        <q-btn
+          v-if="isLoadMore"
+          class="full-width q-mt-md"
+          label="더보기"
+          outline
+          @click="loadMore"
+        />
       </section>
 
       <PostRightBar
@@ -23,7 +30,6 @@
 
 <script setup>
 import { ref, watch } from 'vue';
-import { useRouter } from 'vue-router';
 
 import { getPosts } from 'src/services';
 import { useAsyncState } from '@vueuse/core';
@@ -34,25 +40,43 @@ import PostLeftBar from './components/PostLeftBar.vue';
 import PostRightBar from './components/PostRightBar.vue';
 import PostWriteDialog from 'src/components/apps/post/PostWriteDialog.vue';
 
-const router = useRouter();
-// const goPostDetails = id => router.push(`/posts/{id}`);
-
-// 필터터
+// 필터
 const params = ref({
   category: null,
   tags: [],
   sort: 'createAt',
+  limit: 2,
 });
 
-const { state: posts, execute } = useAsyncState(getPosts, [], {
+const items = ref([]);
+const start = ref(null);
+const isLoadMore = ref(true);
+
+const { execute } = useAsyncState(getPosts, [], {
   immediate: false,
   throwError: true,
+  onSuccess: result => {
+    if (start.value) {
+      items.value = items.value.concat(result.items);
+    } else {
+      items.value = result.items;
+    }
+    isLoadMore.value = result.items.length >= params.value.limit;
+    start.value = result.lastItem;
+  },
 });
 // 파라미터가 변경될때마다 바꾸기 (필터)
-watch(params, () => execute(0, params.value), {
-  deep: true,
-  immediate: true,
-});
+watch(
+  params,
+  () => {
+    start.value = null;
+    execute(0, params.value);
+  },
+  {
+    deep: true,
+    immediate: true,
+  },
+);
 
 const postDialog = ref(false);
 const openWriteDialog = () => {
@@ -63,6 +87,12 @@ const openWriteDialog = () => {
 const completeRegistrationPost = () => {
   postDialog.value = false;
   execute(0, params.value);
+};
+
+// 더보기 기능
+const loadMore = () => {
+  console.log('Load More clicked!');
+  execute(0, { ...params.value, start: start.value });
 };
 </script>
 
