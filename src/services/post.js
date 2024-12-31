@@ -11,6 +11,7 @@ import {
   orderBy,
   getDoc,
   updateDoc,
+  deleteDoc,
 } from 'firebase/firestore';
 
 export async function createPost(data) {
@@ -105,4 +106,9 @@ export async function updatePost(id, data) {
     ...data,
     updatedAt: serverTimestamp(),
   });
+}
+
+// 게시물 삭제
+export async function deletePost(id) {
+  await deleteDoc(doc(db, 'posts', id));
 }
