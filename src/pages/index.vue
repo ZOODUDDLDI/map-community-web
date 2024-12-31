@@ -1,11 +1,11 @@
 <template>
   <q-page padding>
     <div class="row q-col-gutter-x-lg">
-      <PostLeftBar class="col-grow" v-model:category="params.category" />
+      <PostLeftBar class="col-grow" v-model:category="category" />
 
       <section class="col-7">
-        <PostHeader v-model:sort="params.sort" />
-
+        <PostHeader v-model:sort="sort" />
+        {{ category }}
         <PostList :items="items" />
 
         <!-- 무한 스크롤 기준 -->
@@ -14,7 +14,7 @@
 
       <PostRightBar
         class="col-3"
-        v-model:tags="params.tags"
+        v-model:tags="tags"
         @open-write-dialog="openWriteDialog"
       />
     </div>
@@ -26,11 +26,12 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 
 import { getPosts } from 'src/services';
 import { useAsyncState } from '@vueuse/core';
 import { vIntersectionObserver } from '@vueuse/components';
+import { usePostQuery } from 'src/composables/usePostQuery';
 
 import PostList from 'src/components/apps/post/PostList.vue';
 import PostHeader from './components/PostHeader.vue';
@@ -38,13 +39,16 @@ import PostLeftBar from './components/PostLeftBar.vue';
 import PostRightBar from './components/PostRightBar.vue';
 import PostWriteDialog from 'src/components/apps/post/PostWriteDialog.vue';
 
+// 파라미터 URL 연동
+const { category, sort, tags } = usePostQuery();
+
 // 필터
-const params = ref({
-  category: null,
-  tags: [],
-  sort: 'createAt',
+const params = computed(() => ({
+  category: category.value,
+  tags: tags.value,
+  sort: sort.value,
   limit: 6,
-});
+}));
 
 const items = ref([]);
 const start = ref(null);
