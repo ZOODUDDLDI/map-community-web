@@ -7,13 +7,9 @@
         <PostHeader v-model:sort="params.sort" />
 
         <PostList :items="items" />
-        <q-btn
-          v-if="isLoadMore"
-          class="full-width q-mt-md"
-          label="더보기"
-          outline
-          @click="loadMore"
-        />
+
+        <!-- 무한 스크롤 기준 -->
+        <div v-intersection-observer="handleIntersectionObserver"></div>
       </section>
 
       <PostRightBar
@@ -34,7 +30,7 @@ import { ref, watch } from 'vue';
 
 import { getPosts } from 'src/services';
 import { useAsyncState } from '@vueuse/core';
-import { formatRelativeTime } from 'src/utils/relative-time-format';
+import { vIntersectionObserver } from '@vueuse/components';
 
 import PostList from 'src/components/apps/post/PostList.vue';
 import PostHeader from './components/PostHeader.vue';
@@ -47,7 +43,7 @@ const params = ref({
   category: null,
   tags: [],
   sort: 'createAt',
-  limit: 2,
+  limit: 6,
 });
 
 const items = ref([]);
@@ -76,7 +72,6 @@ watch(
   },
   {
     deep: true,
-    immediate: true,
   },
 );
 
@@ -94,8 +89,14 @@ const completeRegistrationPost = () => {
 
 // 더보기 기능
 const loadMore = () => {
-  console.log('Load More clicked!');
   execute(0, { ...params.value, start: start.value });
+};
+
+const handleIntersectionObserver = ([{ isIntersecting }]) => {
+  if (isIntersecting && isLoadMore.value) {
+    console.log('## handleIntersectionObserver ##');
+    loadMore();
+  }
 };
 </script>
 
