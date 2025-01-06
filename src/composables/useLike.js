@@ -1,6 +1,6 @@
 import { storeToRefs } from 'pinia';
 import { useAuthStore } from 'src/stores/auth';
-import { ref, watch } from 'vue';
+import { readonly, ref, watch } from 'vue';
 import { addLike, hasLike, removeLike } from 'src/services';
 
 export const useLike = (id, options) => {
@@ -41,7 +41,8 @@ export const useLike = (id, options) => {
 
   return {
     isLike,
-    likeCount,
+    likeCount: readonly(likeCount),
+    updateLikeCount: count => (likeCount.value = count),
     toggleLike,
   };
 };

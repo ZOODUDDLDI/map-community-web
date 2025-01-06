@@ -11,7 +11,15 @@
         @click="$router.back()"
       />
       <q-space />
-      <q-btn icon="sym_o_favorite" flat round dense color="red" size="16px" />
+      <q-btn
+        :icon="isLike ? 'favorite' : 'sym_o_favorite'"
+        flat
+        round
+        dense
+        color="red"
+        size="16px"
+        @click="toggleLike"
+      />
       <q-btn icon="sym_o_bookmark" flat round dense color="blue" size="16px" />
     </div>
     <div class="flex items-center">
@@ -54,7 +62,7 @@
 
       <PostIcon name="sym_o_sms" :label="post.commentCount" />
 
-      <PostIcon name="sym_o_favorite" :label="post.likeCount" />
+      <PostIcon name="sym_o_favorite" :label="likeCount" />
 
       <PostIcon name="sym_o_bookmark" :label="post.bookmarkCount" />
     </div>
@@ -73,6 +81,7 @@ import { deletePost, getPost } from 'src/services';
 import PostIcon from 'src/components/apps/post/PostIcon.vue';
 import BaseCard from 'src/components/base/BaseCard.vue';
 import TiptapViewer from 'src/components/tiptap/TiptapViewer.vue';
+import { useLike } from 'src/composables/useLike';
 
 const route = useRoute();
 const router = useRouter();
@@ -83,6 +92,9 @@ const { hasOwnContent } = useAuthStore();
 const { state: post, error } = useAsyncState(
   () => getPost(route.params.id),
   {},
+  {
+    onSuccess: result => updateLikeCount(result.likeCount),
+  },
 );
 
 const { execute: executeDeletePost } = useAsyncState(deletePost, null, {
@@ -99,6 +111,11 @@ const handleDeletePost = async () => {
   }
   await executeDeletePost(0, route.params.id);
 };
+
+// 좋아요 기능
+const { isLike, likeCount, toggleLike, updateLikeCount } = useLike(
+  route.params.id,
+);
 </script>
 
 <style lang="scss" scoped></style>
