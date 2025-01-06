@@ -100,6 +100,7 @@ export async function deletePost(id) {
   await deleteDoc(doc(db, 'posts', id));
 }
 
+// 좋아요 기능
 // 1. 게시글 좋아요
 export async function addLike(uid, postId) {
   await setDoc(doc(db, 'post_likes', `${uid}_${postId}`), {
@@ -115,5 +116,22 @@ export async function removeLike(uid, postId) {
 // 3. 게시글 좋아요 조회
 export async function hasLike(uid, postId) {
   const docSnap = await getDoc(doc(db, 'post_likes', `${uid}_${postId}`));
+  return docSnap.exists();
+}
+
+// 북마크기능
+// 1. 북마크
+export async function addBookmark(uid, postId) {
+  await setDoc(doc(db, 'users', uid, 'bookmarks', postId), {
+    createdAt: serverTimestamp(),
+  });
+}
+// 2. 북마크 취소
+export async function removeBookmark(uid, postId) {
+  await deleteDoc(doc(db, 'users', uid, 'bookmarks', postId));
+}
+// 3. 북마크 조회
+export async function hasBookmark(uid, postId) {
+  const docSnap = await getDoc(doc(db, 'users', uid, 'bookmarks', postId));
   return docSnap.exists();
 }
