@@ -7,38 +7,44 @@
     </q-item-section>
     <q-item-section>
       <div class="flex items-center">
-        <span>닉네임 &middot; {{ formatRelativeTime(createAt) }}</span>
+        <span>닉네임 &middot; {{ formatRelativeTime(item.createAt) }}</span>
         <q-chip class="q-ml-sm" dense color="primary" text-color="white">
-          {{ category }}
+          {{ item.category }}
         </q-chip>
       </div>
       <div>
-        <div class="text-h5">{{ title }}</div>
+        <div class="text-h5">{{ item.title }}</div>
         <div class="text-primary text-caption">
-          <span v-for="tag in tags" :key="tag">#{{ tag }}&nbsp;&nbsp;</span>
+          <span v-for="tag in item.tags" :key="tag"
+            >#{{ tag }}&nbsp;&nbsp;</span
+          >
         </div>
       </div>
-      <div class="text-grey-6 q-my-sm ellipsis-2-lines">{{ content }}</div>
+      <div class="text-grey-6 q-my-sm ellipsis-2-lines">{{ item.content }}</div>
       <div class="row items-center">
         <div class="col-3">
           <div class="flex flex-center">
             <PostIcon
               name="sym_o_visibility"
-              :label="readCount"
+              :label="item.readCount"
               tooltip="조회수"
             />
           </div>
         </div>
         <div class="col-3">
           <div class="flex flex-center">
-            <PostIcon name="sym_o_sms" :label="commentCount" tooltip="댓글수" />
+            <PostIcon
+              name="sym_o_sms"
+              :label="item.commentCount"
+              tooltip="댓글수"
+            />
           </div>
         </div>
         <div class="col-3">
           <div class="flex flex-center">
             <PostIcon
               name="sym_o_favorite"
-              :label="likeCount"
+              :label="item.likeCount"
               tooltip="좋아요"
             />
           </div>
@@ -47,7 +53,7 @@
           <div class="flex flex-center">
             <PostIcon
               name="sym_o_bookmark"
-              :label="bookmarkCount"
+              :label="item.bookmarkCount"
               tooltip="북마크"
             />
           </div>
@@ -58,48 +64,13 @@
 </template>
 
 <script setup>
-import { date } from 'quasar';
 import { formatRelativeTime } from 'src/utils/relative-time-format';
 import PostIcon from './PostIcon.vue';
 
 defineProps({
-  id: {
-    type: String,
-  },
-  title: {
-    type: String,
-  },
-  content: {
-    type: String,
-  },
-  readCount: {
-    type: Number,
-    default: 0,
-  },
-  commentCount: {
-    type: Number,
-    default: 0,
-  },
-  likeCount: {
-    type: Number,
-    default: 0,
-  },
-  bookmarkCount: {
-    type: Number,
-    default: 0,
-  },
-  category: {
-    type: String,
-  },
-  createAt: {
-    type: Date,
-  },
-  tags: {
-    type: Array,
-    default: () => [],
-  },
-  uid: {
-    type: String,
+  item: {
+    type: Object,
+    default: () => ({}),
   },
 });
 </script>
