@@ -36,10 +36,20 @@ export const useAuthStore = defineStore('auth', () => {
       user.value = null;
     }
   };
+
+  // 컨텐츠 관리 (수정, 삭제 )
+  const hasOwnContent = contentUid => {
+    if (!isAuthenticated.value) {
+      return false;
+    }
+    return uid.value === contentUid;
+  };
+
   return {
     user,
     uid,
     setUser,
     isAuthenticated,
+    hasOwnContent,
   };
 });

@@ -32,6 +32,7 @@ import { getPosts } from 'src/services';
 import { useAsyncState } from '@vueuse/core';
 import { vIntersectionObserver } from '@vueuse/components';
 import { usePostQuery } from 'src/composables/usePostQuery';
+import { useAuthStore } from 'src/stores/auth';
 
 import PostList from 'src/components/apps/post/PostList.vue';
 import PostHeader from './components/PostHeader.vue';
@@ -41,6 +42,8 @@ import PostWriteDialog from 'src/components/apps/post/PostWriteDialog.vue';
 
 // 파라미터 URL 연동
 const { category, sort, tags } = usePostQuery();
+
+const authStore = useAuthStore();
 
 // 필터
 const params = computed(() => ({
@@ -81,6 +84,10 @@ watch(
 
 const postDialog = ref(false);
 const openWriteDialog = () => {
+  if (!authStore.isAuthenticated) {
+    alert('로그인 후 이용 가능합니다.');
+    return;
+  }
   postDialog.value = true;
 };
 
