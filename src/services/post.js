@@ -14,6 +14,7 @@ import {
   startAfter,
   limit,
   setDoc,
+  increment,
 } from 'firebase/firestore';
 
 export async function createPost(data) {
@@ -74,11 +75,8 @@ export async function getPosts(params) {
 
 // 상세페이지 데이터 불러오기
 export async function getPost(id) {
-  console.log('*Fetching post with ID:', id);
   const docSnap = await getDoc(doc(db, 'posts', id));
-
   if (!docSnap.exists()) {
-    console.error('*No such document with ID:', id);
     throw new Error('No such document!');
   }
   const data = docSnap.data();
@@ -87,6 +85,18 @@ export async function getPost(id) {
     id: docSnap.id,
     ...data,
     createAt: data.createAt.toDate(),
+  };
+}
+
+// 조회수 기능
+async function incrementReadCount(id) {
+  await updateDoc(doc(db, 'posts', id), { readCount: increment(1) });
+}
+export async function getPostDetails(id) {
+  await incrementReadCount(id); // 조회수 증가
+  const post = await getPost(id); // 글 정보 가져오기
+  return {
+    post,
   };
 }
 

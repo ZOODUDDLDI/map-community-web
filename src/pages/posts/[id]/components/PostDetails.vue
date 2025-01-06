@@ -73,11 +73,12 @@
 </template>
 
 <script setup>
+import { ref } from 'vue';
 import { date, useQuasar } from 'quasar';
 import { useRoute, useRouter } from 'vue-router';
 import { useAuthStore } from 'src/stores/auth';
 import { useAsyncState } from '@vueuse/core';
-import { deletePost, getPost } from 'src/services';
+import { deletePost, getPostDetails } from 'src/services';
 import PostIcon from 'src/components/apps/post/PostIcon.vue';
 import BaseCard from 'src/components/base/BaseCard.vue';
 import TiptapViewer from 'src/components/tiptap/TiptapViewer.vue';
@@ -89,11 +90,20 @@ const $q = useQuasar();
 
 const { hasOwnContent } = useAuthStore();
 
-const { state: post, error } = useAsyncState(
-  () => getPost(route.params.id),
+const post = ref({});
+const { error } = useAsyncState(
+  () => getPostDetails(route.params.id),
   {},
   {
-    onSuccess: result => updateLikeCount(result.likeCount),
+    onSuccess: result => {
+      post.value = result.post;
+      updateLikeCount(result.post.likeCount);
+    },
+    onError: err => {
+      // 오류 발생 시 에러 로그 출력
+      console.error('글 로드 실패:', err);
+      $q.notify({ color: 'negative', message: '글 로드 실패!' });
+    },
   },
 );
 
