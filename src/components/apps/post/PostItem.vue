@@ -1,5 +1,5 @@
 <template>
-  <q-item class="bg-white q-pt-md" clickable :to="`posts/${item.id}`">
+  <q-item class="bg-white q-pt-md" clickable :to="`/posts/${item.id}`">
     <q-item-section avatar top>
       <q-avatar>
         <img src="/juyeong.png" alt="" />

@@ -7,7 +7,7 @@ export const useBookmark = (id, options) => {
   const { initialCount } = options || {};
   const { uid, isAuthenticated } = storeToRefs(useAuthStore());
 
-  // 좋아요 기능
+  // 북마크기능 기능
   const isBookmark = ref(false);
   const bookmarkCount = ref(initialCount);
   const postId = ref(id);

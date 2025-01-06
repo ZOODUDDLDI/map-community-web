@@ -74,14 +74,17 @@ export async function getPosts(params) {
 
 // 상세페이지 데이터 불러오기
 export async function getPost(id) {
+  console.log('*Fetching post with ID:', id);
   const docSnap = await getDoc(doc(db, 'posts', id));
 
   if (!docSnap.exists()) {
+    console.error('*No such document with ID:', id);
     throw new Error('No such document!');
   }
   const data = docSnap.data();
 
   return {
+    id: docSnap.id,
     ...data,
     createAt: data.createAt.toDate(),
   };
@@ -134,4 +137,17 @@ export async function removeBookmark(uid, postId) {
 export async function hasBookmark(uid, postId) {
   const docSnap = await getDoc(doc(db, 'users', uid, 'bookmarks', postId));
   return docSnap.exists();
+}
+// 4. 북마크 프로필에서 조회
+export async function getUserBookmarks(uid) {
+  const q = query(
+    collection(db, 'users', uid, 'bookmarks'),
+    orderBy('createdAt', 'desc'),
+    limit(6),
+  );
+  const querySnapshot = await getDocs(q);
+
+  return Promise.all(
+    querySnapshot.docs.map(bookmarkDoc => getPost(bookmarkDoc.id)),
+  );
 }
