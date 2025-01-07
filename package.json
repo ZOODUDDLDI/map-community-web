@@ -23,6 +23,7 @@
     "@vueuse/components": "^12.2.0",
     "@vueuse/core": "^12.0.0",
     "axios": "^1.7.9",
+    "browser-image-resizer": "^2.4.1",
     "firebase": "^11.0.2",
     "pinia": "^2.0.11",
     "quasar": "^2.8.0",
