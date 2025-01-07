@@ -5,7 +5,8 @@ import { getAnalytics } from 'firebase/analytics';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { useAuthStore } from 'src/stores/auth';
 
-import { getFirestore } from 'firebase/firestore'; // 파이어 스토어 추가.
+import { getFirestore } from 'firebase/firestore'; // 파이어베이스스 스토어 추가.
+import { getStorage } from 'firebase/storage'; // 파이어베이스 스토리지 추가.
 
 const firebaseConfig = {
   apiKey: process.env.VUE_API_KEY,
@@ -22,8 +23,9 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const auth = getAuth(app); // firebase : auth 추가
 const db = getFirestore(app);
+const storage = getStorage(app);
 
-export { auth, db }; // 외부 사용
+export { auth, db, storage }; // 외부 사용
 
 export default boot(async (/* { app, router, ... } */) => {
   const authStore = useAuthStore();
